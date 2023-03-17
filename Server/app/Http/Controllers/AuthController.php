@@ -12,7 +12,6 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         //validator
-        echo($request);
         $validator = Validator::make($request->all(),[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -39,13 +38,16 @@ class AuthController extends Controller
         return response()->json($response, 200);
         
     }
-    public function login(Request $request): Response
+    public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return response(Auth::user(), 200);
+            $user = Auth::user();
+            $accessToken = $user->createToken('authToken')->plainTextToken;
+            return response()->json(['access_token' => $accessToken]);
+        }else{
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
-        abort(401);
     }
 }
