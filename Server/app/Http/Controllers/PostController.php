@@ -36,7 +36,63 @@ class PostController extends Controller
     public function getAllPosts(Post $Posts)
     {
         $Posts = Post::with('User')->get();
+        if (!$Posts) {
+            $response = [
+                'success' => false,
+                'message' => "No Posts"
+            ];
+            return response()->json($response, 400);
+        }
         return $Posts;
+    }
+    public function GetPostById($id){
+        $Post = Post::find($id);
+        if (!$Post) {
+            $response = [
+                'success' => false,
+                'message' => "Post Not Found"
+            ];
+            return response()->json($response, 400);
+        }
+        return $Post;
+    }
+    public function deletePost($id)
+    {
+        $Post = Post::find($id);
+        if (!$Post) {
+            $response = [
+                'success' => false,
+                'message' => "Post Not Found"
+            ];
+            return response()->json($response, 400);
+        }
+        $Post->delete();
+        $response = [
+            'success' => true,
+            'message' => "Post deleted succesfully"
+        ];
+        return response()->json($response, 200);
+    }
+    public function updatePost(Request $request, $id){
+        
+        $Post = Post::find($id);
+        $input = $request->all();
+        if (!$Post) {
+            $response = [
+                'success' => false,
+                'message' => "Post Not Found"
+            ];
+            return response()->json($response, 400);
+        }
+        $Post->nom = $input['nom'];
+        $Post->description = $input['description'];
+        $Post->image = $input['image'];
+        $Post->update();
+        $response = [
+            'success' => true,
+            'message' => "Post Updated Seccusfuly"
+        ];
+        return response()->json($response, 200);
     }
 
 }

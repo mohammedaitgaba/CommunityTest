@@ -27,4 +27,7 @@ Route::post('/register', [AuthController::class, 'register']);
 // Post Routes
 
 Route::get('/getPosts', [PostController::class, 'getAllPosts']);
+Route::get('/getPosts/{id}', [PostController::class, 'GetPostById']);
 Route::post('/NewPost', [PostController::class, 'NewPost']);
+Route::put('/UpdatePost/{id}', [PostController::class, 'updatePost']);
+Route::delete('/deletePost/{id}', [PostController::class, 'deletePost']);
