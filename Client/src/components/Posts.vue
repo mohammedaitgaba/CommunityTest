@@ -14,7 +14,9 @@
           <div class="post-content">
             <h2>{{ post.nom }}</h2>
             <p>{{ post.description }}</p>
-            <div>Read More</div>
+            <div>
+              <Comments :id="post.id"/>
+            </div>
           </div>
         </div>
       </div>
@@ -23,16 +25,20 @@
   
   <script>
   import axios from 'axios';
-import { ref,onMounted } from 'vue';
-  import AddPost from '../Pages/AddPost.vue'
+  import { ref,onMounted } from 'vue';
+  import Comments from './Comments.vue';
+
   export default {
     name: 'PostsPage',
+    components: {
+      Comments
+    },
     setup() {
         onMounted(() => {
             GetAllPosts()
         });
         let posts = ref([]);
-        const image= 'https://picsum.photos/400/300?random=4'
+        
 
         const GetAllPosts = async()=>{
             await axios('http://127.0.0.1:8000/api/getPosts')
@@ -72,6 +78,7 @@ import { ref,onMounted } from 'vue';
   .post {
     display: flex;
     width: 600px;
+    min-height: 350px;
     flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 5px;
