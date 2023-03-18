@@ -25,8 +25,13 @@ class AuthController extends Controller
             ];
             return response()->json($response, 400);
         }
-
         $input = $request->all();
+
+        $email = User::where('email',$input['email'])->first();
+        if($email){
+            return response()->json(['message' => 'Email Already exist'], 401);
+        }
+
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
@@ -45,7 +50,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $accessToken = $user->createToken('authToken')->plainTextToken;
-            return response()->json(['access_token' => $accessToken]);
+            return response()->json(['access_token' => $accessToken,'id'=>$user->id]);
         }else{
             return response()->json(['message' => 'Invalid credentials'], 401);
         }

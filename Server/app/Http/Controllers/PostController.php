@@ -14,7 +14,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(),[
             'nom' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'image' => ['required','string'],
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'user_id' => ['required'],
         ]);
         
@@ -25,7 +25,16 @@ class PostController extends Controller
             ];
             return response()->json($response, 400);
         }
-        $Post = Post::create($input);
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->storeAs('public/images', $imageName);
+
+        
+        $post = new Post();
+        $post->user_id = $request->user_id;
+        $post->nom = $request->nom;
+        $post->description = $request->description;
+        $post->image = $imageName;
+        $post->save();
 
         $response = [
             'success' => true,
