@@ -9,6 +9,9 @@
         </button>
         <ul class="navbar-menu" :class="{ 'navbar-menu-show': !showNavbar }">
           <li class="navbar-item">
+            <router-link to="/AddPost" class="navbar-link">New Post</router-link>
+          </li>
+          <li class="navbar-item">
             <router-link to="/" class="navbar-link">Home</router-link>
           </li>
           <li class="navbar-item">

@@ -1,15 +1,16 @@
 import {createRouter,createWebHistory} from 'vue-router'
 
 
-import Posts from '../Pages/Posts.vue'
+import Home from '../Pages/Home.vue'
 import Login from '../Pages/Login.vue'
 import Register from '../Pages/Register.vue'
+import AddPost from '../Pages/AddPost.vue'
 import NotFound from '../Pages/NotFound.vue'
 
 const routes = [
     {
         path:'/',
-        component:Posts
+        component:Home
     },
     {
         path:'/Login',
@@ -18,6 +19,10 @@ const routes = [
     {
         path:'/Register',
         component:Register
+    },
+    {
+        path:'/AddPost',
+        component:AddPost
     },
     {
         path:'/:pathMatch(.*)*',
